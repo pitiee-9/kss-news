@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - kss News</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+    <script src="{{ url_for('static', filename='admin_script.js') }}" defer></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div class="admin-logo">School Video News - Admin Panel</div>
+            <div class="admin-nav">
+                <a href="/admin" class="active">Manage Videos</a>
+                <a href="/">View Site</a>
+            </div>
+        </div>
+
+        <h2 class="section-title">Add New Video</h2>
+        <form id="videoForm" class="add-video-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="videoTitle">Video Title</label>
+                <input type="text" id="videoTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="videoYear">Release Year</label>
+                <input type="number" id="videoYear" name="year" min="2020" max="2030" required>
+            </div>
+            <div class="form-group">
+                <label for="videoCategory">Category</label>
+                <select id="videoCategory" name="category">
+                    <option value="Event">School Event</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Announcement">Announcement</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="videoFile">Video File</label>
+                <input type="file" id="videoFile" name="video" accept="video/*" required>
+            </div>
+            <div class="form-group">
+                <label for="thumbnailFile">Thumbnail Image (Optional)</label>
+                <input type="file" id="thumbnailFile" name="thumbnail" accept="image/*">
+            </div>
+            <div class="form-actions">
+                <button type="reset" class="cancel-btn">Clear Form</button>
+                <button type="submit" class="submit-btn">Add Video</button>
+            </div>
+        </form>
+
+        <h2 class="section-title">Manage Videos</h2>
+        <div class="video-grid">
+            {% for video in videos %}
+            <div class="video-card" data-video-id="{{ video.id }}">
+                <div class="video-thumbnail">
+                    {% if video.thumbnail %}
+                    <img src="{{ url_for('static', filename='thumbnails/' + video.thumbnail) }}" alt="{{ video.title }}">
+                    {% else %}
+                    <div>No Thumbnail</div>
+                    {% endif %}
+                </div>
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-details">
+                        <div>Year: {{ video.year }}</div>
+                        <div>Category: {{ video.category }}</div>
+                        <div>Added: {{ video.added }}</div>
+                    </div>
+                    <div class="video-actions">
+                        <button class="delete-btn" data-video-id="{{ video.id }}">Delete</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+</body>
+</html>

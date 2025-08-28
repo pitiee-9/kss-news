@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School News - Kss</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="school-header">
+                <div class="school-name">
+                    <h1>Kagarama secondary school</h1>
+                    <p>The sky is the limit</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h2>School Video News & Announcements</h2>
+            <p>Stay updated with the latest events and happenings at our school</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Video Section -->
+            <div class="video-section">
+                <h2>Latest Videos</h2>
+                <div class="video-grid">
+                    {% for video in videos %}
+                    <div class="video-card" data-video-id="{{ video.id }}">
+                        <div class="video-thumbnail">
+                            {% if video.thumbnail %}
+                            <img src="{{ url_for('static', filename='thumbnails/' + video.thumbnail) }}" alt="{{ video.title }}">
+                            {% else %}
+                            <div>Video Thumbnail</div>
+                            {% endif %}
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">{{ video.title }}</div>
+                            <div class="video-details">
+                                <div>Category: {{ video.category }}</div>
+                                <div>Date Added: {{ video.added }}</div>
+                            </div>
+                            <a href="#" class="watch-btn" data-video-id="{{ video.id }}">Watch Video</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Announcements Section -->
+                <div class="sidebar-section">
+                    <h3>School Announcements</h3>
+                    <div class="announcement-item">
+                        <h4>Parent-Teacher Meeting</h4>
+                        <p>October 15, 2025 - 3:00 PM in the School Auditorium</p>
+                    </div>
+                    <div class="announcement-item">
+                        <h4>Science Fair Registration</h4>
+                        <p>Registration for the annual science fair is now open. Submit your projects by October 20.</p>
+                    </div>
+                    <div class="announcement-item">
+                        <h4>Holiday Notice</h4>
+                        <p>School will be closed on November 1-2 for the fall break.</p>
+                    </div>
+                    <!-- Add more announcements as needed -->
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-section">
+                    <h3>Quick Links</h3>
+                    <div class="announcement-item">
+                        <h4><a href="#">School Calendar</a></h4>
+                    </div>
+                    <div class="announcement-item">
+                        <h4><a href="#">Lunch Menu</a></h4>
+                    </div>
+                    <div class="announcement-item">
+                        <h4><a href="#">Student Resources</a></h4>
+                    </div>
+                    <div class="announcement-item">
+                        <h4><a href="#">Faculty Directory</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-container">
+            <video class="video-player" id="videoPlayer" controls>
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-controls">
+                <div class="video-title-modal" id="videoTitle"></div>
+                <button class="close-btn" id="closeVideoBtn">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Data Script -->
+    <script id="video-data" type="application/json">
+        {{ videos|tojson }}
+    </script>
+
+</body>
+</html>
